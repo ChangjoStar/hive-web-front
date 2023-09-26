@@ -1,7 +1,7 @@
 import { AppBar, Toolbar, Typography, Paper } from '@mui/material';
 import './App.css';
-import DataInput from './data_input';
-import Statistics from './statistics';
+import DataInput from './input/data_input';
+import Statistics from './output/statistics';
 import SectionAccordian from './section_accordian';
 
 function App() {
