@@ -1,4 +1,4 @@
-import { AppBar, Toolbar, Typography, Paper } from '@mui/material';
+import { AppBar, Toolbar, Typography, Paper, Stack } from '@mui/material';
 import './App.css';
 import DataInput from './input/data_input';
 import Statistics from './output/statistics';
@@ -16,12 +16,14 @@ function App() {
           </Toolbar>
         </AppBar>
         <Paper elevation={1}>
-          <SectionAccordian title="입력 데이터">
-            <DataInput></DataInput>
-          </SectionAccordian>
-          <SectionAccordian title="배정 결과">
-            <Statistics></Statistics>
-          </SectionAccordian>
+          <Stack spacing={1} direction="column">
+            <SectionAccordian title="입력 데이터">
+              <DataInput />
+            </SectionAccordian>
+            <SectionAccordian title="배정 결과">
+              <Statistics />
+            </SectionAccordian>
+          </Stack>
         </Paper>
       </Paper>
     </>
