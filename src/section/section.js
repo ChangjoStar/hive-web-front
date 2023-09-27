@@ -1,17 +1,18 @@
+import * as React from 'react';
 import { Accordion, AccordionDetails, AccordionSummary, Typography } from "@mui/material";
 import { ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
 
-function SectionAccordian(props) {
+function Section({ title, defaultExpanded, disable, children }) {
     return (
         <>
-            <Accordion defaultExpanded={true}>
+            <Accordion defaultExpanded={defaultExpanded} disabled={disable}>
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                    <Typography variant="h6">{props.title}</Typography>
+                    <Typography variant="h6">{title}</Typography>
                 </AccordionSummary>
-                <AccordionDetails>{props.children}</AccordionDetails>
+                <AccordionDetails>{children}</AccordionDetails>
             </Accordion>
         </>
     )
 }
 
-export default SectionAccordian;
+export default Section;
