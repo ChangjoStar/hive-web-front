@@ -1,12 +1,13 @@
-import readCsv from "./check_file";
 import DataInput from "./data_input";
+import { readCsv } from "./read_csv";
 
-async function checkSchools(schools, newline='\r\n', delimiter=',') {
-    const data = await readCsv(schools, newline, delimiter)
-    return data
-}
+function SchoolsInput({ onAccept, onDecline, setSchools }) {
+    const checkSchools = async (file, newline = '\r\n', delimiter = ',') => {
+        const schools = await readCsv(file, newline, delimiter)
+        setSchools(file)
+        return schools
+    }
 
-function SchoolsInput({ onAccept, onDecline }) {
     return (
         <>
             <DataInput

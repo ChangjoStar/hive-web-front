@@ -1,8 +1,6 @@
-
 import * as React from 'react';
 import { CloudDownload as CloudDownloadIcon, CloudUpload as CloudUploadIcon } from '@mui/icons-material';
 import { Tooltip, Stack, Alert } from '@mui/material';
-import DataTable from './data_table';
 import { LoadingButton } from '@mui/lab';
 
 function ButtonWithIcon({ title, startIcon, loading, children, onClick }) {
@@ -26,9 +24,7 @@ function ButtonWithIcon({ title, startIcon, loading, children, onClick }) {
     );
 }
 
-function DataInput({ prefix, filename, href, onAccept, onDecline, checkFile }) {
-    const [hideTable, setHideTable] = React.useState(true)
-    const [data, setData] = React.useState(null)
+function DataInput({ filename, href, onAccept, onDecline, checkFile }) {
     const [loading, setLoading] = React.useState(false)
     const [alert, setAlert] = React.useState(null)
     const [alertMessage, setAlertMessage] = React.useState('')
@@ -56,21 +52,17 @@ function DataInput({ prefix, filename, href, onAccept, onDecline, checkFile }) {
                             onChange={(e) => {
                                 if (e?.target?.files.length !== 1) {
                                     setLoading(false)
-                                    setHideTable(true)
                                     onDecline()
                                 } else {
                                     setLoading(true)
                                     setTimeout(() => {
                                         checkFile(e.target.files[0])
-                                            .then(setData)
                                             .then(() => {
                                                 setAlert(null)
-                                                setHideTable(false)
                                                 onAccept()
                                             }).catch((e) => {
                                                 setAlert(e.name.toLowerCase())
                                                 setAlertMessage(`[${e.name}] ${e.message}`)
-                                                setHideTable(true)
                                                 onDecline()
                                             }).finally(() => {
                                                 setLoading(false)
@@ -88,8 +80,6 @@ function DataInput({ prefix, filename, href, onAccept, onDecline, checkFile }) {
                     </ButtonWithIcon>
                 </Stack>
                 {alert && <Alert severity={alert}>{alertMessage}</Alert>}
-                <DataTable prefix={prefix} data={data} hidden={true} />
-                {/* <DataTable prefix={prefix} data={data} hidden={hideTable} /> */}
             </Stack>
         </>
     );

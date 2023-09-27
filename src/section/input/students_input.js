@@ -1,16 +1,16 @@
-import readCsv from "./check_file";
 import DataInput from "./data_input";
+import { readCsv } from "./read_csv";
 
-async function checkStudents(students, newline='\r\n', delimiter=',') {
-    const data = await readCsv(students, newline, delimiter)
-    return data
-}
+function StudentsInput({ onAccept, onDecline, setStudents, schools }) {
+    const crossCheck = async (file, newline = '\r\n', delimiter = ',') => {
+        checkStudents(file, newline, delimiter)
+    }
+    const checkStudents = async (file, newline = '\r\n', delimiter = ',') => {
+        const students = await readCsv(file, newline, delimiter)
+        setStudents(file)
+        return students
+    }
 
-function crossCheck(schools, students) {
-    return true
-}
-
-function StudentsInput({ onAccept, onDecline }) {
     return (
         <>
             <DataInput
@@ -19,7 +19,7 @@ function StudentsInput({ onAccept, onDecline }) {
                 filename='schools.csv'
                 onAccept={onAccept}
                 onDecline={onDecline}
-                checkFile={checkStudents} />
+                checkFile={crossCheck} />
         </>
     );
 }

@@ -7,6 +7,8 @@ import StudentsInput from './section/input/students_input';
 
 function App() {
   const [step, setStep] = React.useState(0)
+  const [schools, setSchools] = React.useState(null)
+  const [students, setStudents] = React.useState(null)
 
   return (
     <>
@@ -26,7 +28,8 @@ function App() {
             >
               <SchoolsInput
                 onAccept={() => setStep(1)}
-                onDecline={() => setStep(0)} />
+                onDecline={() => setStep(0)}
+                setSchools={setSchools} />
             </Section>
             <Section
               title='2. 학생 데이터 입력'
@@ -34,13 +37,17 @@ function App() {
             >
               <StudentsInput
                 onAccept={() => setStep(2)}
-                onDecline={() => setStep(1)} />
+                onDecline={() => setStep(1)}
+                setStudents={setStudents}
+                schools={schools} />
             </Section>
             <Section
               title='3. 학교 배정'
-              disable={step !== 2}
+              // disable={step !== 2}
             >
-              <Statistics />
+              <Statistics
+                schools={schools}
+                students={students} />
             </Section>
           </Stack>
         </Paper>

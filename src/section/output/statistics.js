@@ -1,4 +1,6 @@
-function Statistics() {
+import StatisticsTable from "./statistics_table";
+
+function Statistics({ schools, students }) {
     return (
         <>
             <table>
@@ -19,7 +21,7 @@ function Statistics() {
                 </thead>
                 <tbody>
                     <tr>
-                        <td rowSpan={2}>Tie-Breaking</td>
+                        <td rowSpan={3}>Tie-Breaking</td>
                         <td>시드</td>
                         <td>배정</td>
                         <td>통계</td>
@@ -38,7 +40,10 @@ function Statistics() {
                         <td>삭제</td>
                     </tr>
                     <tr>
-                        <td rowSpan={3}>Sparkling</td>
+                        <td colSpan={7}>+</td>
+                    </tr>
+                    <tr>
+                        <td rowSpan={4}>Sparkling</td>
                         <td>시드</td>
                         <td>배정</td>
                         <td>통계</td>
@@ -64,9 +69,13 @@ function Statistics() {
                         <td>통계</td>
                         <td>다운로드</td>
                         <td>삭제</td>
+                    </tr>
+                    <tr>
+                        <td colSpan={7}>+</td>
                     </tr>
                 </tbody>
             </table>
+            <StatisticsTable schools={schools} students={students} />
         </>
     );
 }
