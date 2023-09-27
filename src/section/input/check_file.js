@@ -1,13 +1,25 @@
-function checkSchools(csv_file) {
-    console.log('schools', csv_file)
-    if (csv_file.name === 'schools.csv') return true
-    return false
+async function readCsv(csv_file, newline, delimiter) {
+    const fileUrl = URL.createObjectURL(csv_file)
+    const response = await fetch(fileUrl)
+    const text = await response.text();
+    const lines = text.split(newline);
+    const rows = lines.map((line) => line.split(delimiter));
+    const [header, ...data] = rows
+    return { header, data }
 }
 
-function checkStudents(csv_file) {
-    console.log('students', csv_file)
-    if (csv_file.name === 'students.csv') return true
-    return false
+async function checkSchools(schools, newline='\r\n', delimiter=',') {
+    const data = await readCsv(schools, newline, delimiter)
+    return data
 }
 
-export { checkSchools, checkStudents };
+async function checkStudents(students, newline='\r\n', delimiter=',') {
+    const data = await readCsv(students, newline, delimiter)
+    return data
+}
+
+function crossCheck(schools, students) {
+    return true
+}
+
+export { checkSchools, checkStudents, crossCheck };
