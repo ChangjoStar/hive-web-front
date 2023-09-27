@@ -5,21 +5,11 @@ async function readCsv(csv_file, newline, delimiter) {
     const lines = text.split(newline);
     const rows = lines.map((line) => line.split(delimiter));
     const [header, ...data] = rows
+    const colLength = header.length
+    data.forEach(row => {
+        if(row.length !== colLength) throw new Error(`${row}`)
+    })
     return { header, data }
 }
 
-async function checkSchools(schools, newline='\r\n', delimiter=',') {
-    const data = await readCsv(schools, newline, delimiter)
-    return data
-}
-
-async function checkStudents(students, newline='\r\n', delimiter=',') {
-    const data = await readCsv(students, newline, delimiter)
-    return data
-}
-
-function crossCheck(schools, students) {
-    return true
-}
-
-export { checkSchools, checkStudents, crossCheck };
+export default readCsv;

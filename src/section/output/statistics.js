@@ -1,8 +1,6 @@
 function Statistics() {
     return (
         <>
-            <p>학교 정보 파일 필요</p>
-            <p>학생 정보 파일 필요</p>
             <table>
                 <thead>
                     <tr>

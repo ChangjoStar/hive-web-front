@@ -1,7 +1,7 @@
 
 import * as React from 'react';
 import { CloudDownload as CloudDownloadIcon, CloudUpload as CloudUploadIcon } from '@mui/icons-material';
-import { Tooltip, Stack } from '@mui/material';
+import { Tooltip, Stack, Alert } from '@mui/material';
 import DataTable from './data_table';
 import { LoadingButton } from '@mui/lab';
 
@@ -30,6 +30,8 @@ function DataInput({ prefix, filename, href, onAccept, onDecline, checkFile }) {
     const [hideTable, setHideTable] = React.useState(true)
     const [data, setData] = React.useState(null)
     const [loading, setLoading] = React.useState(false)
+    const [alert, setAlert] = React.useState(null)
+    const [alertMessage, setAlertMessage] = React.useState('')
 
     const download = () => {
         if (!!filename && !!href) {
@@ -42,47 +44,53 @@ function DataInput({ prefix, filename, href, onAccept, onDecline, checkFile }) {
 
     return (
         <>
-            <Stack spacing={1} direction='row'>
-                <ButtonWithIcon
-                    title='예제 파일 다운로드'
-                    startIcon={<CloudDownloadIcon />}
-                    onClick={download}
-                    loading={loading} >
-                </ButtonWithIcon>
-                <ButtonWithIcon
-                    title='파일 업로드'
-                    startIcon={<CloudUploadIcon />}
-                    loading={loading} >
-                    <input
-                        type='file'
-                        accept='.csv'
-                        onChange={(e) => {
-                            if (e?.target?.files.length !== 1) {
-                                setLoading(false)
-                                setHideTable(true)
-                                onDecline()
-                            } else {
-                                setLoading(true)
-                                setTimeout(() => {
-                                    checkFile(e.target.files[0])
-                                        .then(setData)
-                                        .then(() => {
-                                            setHideTable(false)
-                                            onAccept()
-                                        }).catch(() => {
-                                            setHideTable(true)
-                                            onDecline()
-                                        }).finally(() => {
-                                            setLoading(false)
-                                        })
-                                }, 500)
-                            }
-                        }}
-                        hidden />
-                </ButtonWithIcon>
+            <Stack spacing={1} direction='column'>
+                <Stack spacing={1} direction='row'>
+                    <ButtonWithIcon
+                        title='파일 업로드'
+                        startIcon={<CloudUploadIcon />}
+                        loading={loading} >
+                        <input
+                            type='file'
+                            accept='.csv'
+                            onChange={(e) => {
+                                if (e?.target?.files.length !== 1) {
+                                    setLoading(false)
+                                    setHideTable(true)
+                                    onDecline()
+                                } else {
+                                    setLoading(true)
+                                    setTimeout(() => {
+                                        checkFile(e.target.files[0])
+                                            .then(setData)
+                                            .then(() => {
+                                                setAlert(null)
+                                                setHideTable(false)
+                                                onAccept()
+                                            }).catch((e) => {
+                                                setAlert(e.name.toLowerCase())
+                                                setAlertMessage(`[${e.name}] ${e.message}`)
+                                                setHideTable(true)
+                                                onDecline()
+                                            }).finally(() => {
+                                                setLoading(false)
+                                            })
+                                    }, 500)
+                                }
+                            }}
+                            hidden />
+                    </ButtonWithIcon>
+                    <ButtonWithIcon
+                        title='예제 파일 다운로드'
+                        startIcon={<CloudDownloadIcon />}
+                        onClick={download}
+                        loading={loading} >
+                    </ButtonWithIcon>
+                </Stack>
+                {alert && <Alert severity={alert}>{alertMessage}</Alert>}
+                <DataTable prefix={prefix} data={data} hidden={true} />
+                {/* <DataTable prefix={prefix} data={data} hidden={hideTable} /> */}
             </Stack>
-            <DataTable prefix={prefix} data={data} hidden={true} />
-            {/* <DataTable prefix={prefix} data={data} hidden={hideTable} /> */}
         </>
     );
 }
