@@ -1,9 +1,9 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography, Paper, Stack } from '@mui/material';
-import Statistics from './section/output/statistics';
 import Section from './section/section';
 import SchoolsInput from './section/input/schools_input';
 import StudentsInput from './section/input/students_input';
+import StatisticsTable from './section/output/statistics_table';
 
 function App() {
   const [step, setStep] = React.useState(0)
@@ -38,16 +38,13 @@ function App() {
               <StudentsInput
                 onAccept={() => setStep(2)}
                 onDecline={() => setStep(1)}
-                setStudents={setStudents}
-                schools={schools} />
+                setStudents={setStudents} />
             </Section>
             <Section
               title='3. 학교 배정'
-              // disable={step !== 2}
+            // disable={step !== 2}
             >
-              <Statistics
-                schools={schools}
-                students={students} />
+              <StatisticsTable schools={schools} students={students} />
             </Section>
           </Stack>
         </Paper>

@@ -1,7 +1,7 @@
 import DataInput from "./data_input";
 import { readCsv } from "./read_csv";
 
-function StudentsInput({ onAccept, onDecline, setStudents, schools }) {
+function StudentsInput({ onAccept, onDecline, setStudents }) {
     const crossCheck = async (file, newline = '\r\n', delimiter = ',') => {
         checkStudents(file, newline, delimiter)
     }
@@ -14,9 +14,9 @@ function StudentsInput({ onAccept, onDecline, setStudents, schools }) {
     return (
         <>
             <DataInput
-                prefix='schools'
-                href='./schools.csv'
-                filename='schools.csv'
+                prefix='students'
+                href='./students.csv'
+                filename='students.csv'
                 onAccept={onAccept}
                 onDecline={onDecline}
                 checkFile={crossCheck} />

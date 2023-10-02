@@ -6,6 +6,8 @@ import { parseTextToCsv } from "../input/read_csv";
 function StatisticsTable({ schools, students }) {
     const SeedRow = () => {
         const [seed, setSeed] = React.useState(0)
+        const [seedDisabled, setSeedDisabled] = React.useState(false)
+        const [stat, setStat] = React.useState()
 
         const send = (algorithm, version, seed) => {
             let formData = new FormData()
@@ -18,8 +20,12 @@ function StatisticsTable({ schools, students }) {
                 body: formData
             }).then(async response => {
                 const text = await response.text()
-                // const data = parseTextToCsv(text, '\n', ',')
-                parseTextToCsv(text, '\n', ',')
+                const data = parseTextToCsv(text, '\n', ',')
+
+                setSeedDisabled(true)
+                const stat = data
+                setStat(stat)
+
                 const file = new Blob([text], { type: 'text/csv' })
                 const link = document.createElement('a');
                 link.download = `result_alg_${algorithm}_seed_${seed}.csv`;
@@ -42,14 +48,22 @@ function StatisticsTable({ schools, students }) {
                             setSeed(value)
                         }}
                         value={seed}
+                        disabled={seedDisabled}
                     />
                 </TableCell>
-                <TableCell>
-                    <LoadingButton onClick={() => send('sparkling', 'v2', seed)} >test</LoadingButton>
-                </TableCell>
-                <TableCell>통계</TableCell>
-                <TableCell>통계</TableCell>
-                <TableCell>통계</TableCell>
+                {
+                    !stat ? (
+                        <TableCell colSpan={3}>
+                            <LoadingButton onClick={() => send('sparkling', 'v2', seed) }>배정</LoadingButton>
+                        </TableCell>
+                    ) : (
+                        <>
+                            <TableCell>통계</TableCell>
+                            <TableCell>통계</TableCell>
+                            <TableCell>통계</TableCell>
+                        </>
+                    )
+                }
             </TableRow>
         )
     }
@@ -85,7 +99,6 @@ function StatisticsTable({ schools, students }) {
                         <TableRow>
                             <TableCell rowSpan={2}>알고리즘</TableCell>
                             <TableCell rowSpan={2}>시드</TableCell>
-                            <TableCell rowSpan={2}>배정 버튼</TableCell>
                             <TableCell colSpan={3}>통계</TableCell>
                         </TableRow>
                         <TableRow>
@@ -101,26 +114,6 @@ function StatisticsTable({ schools, students }) {
             </TableContainer>
         </>
     );
-    // return (
-    //     <>
-    //         <TableContainer component={Paper} hidden={hidden}>
-    //             <Table sx={{ minWidth: 650 }} size='small' aria-label='a dense table'>
-    //                 <TableHead>
-    //                     <TableRow>
-    //                         {data && data.header.map((colname) => <TableCell key={`${prefix}_${colname}`}>{colname}</TableCell>)}
-    //                     </TableRow>
-    //                 </TableHead>
-    //                 <TableBody>
-    //                     {data && data.data.map((row, ri, array) => (
-    //                         <TableRow key={`${prefix}_${ri}`}>
-    //                             {row.map((cell, ci, array) => <TableCell key={`${prefix}_${ri}_${ci}`}>{cell}</TableCell>)}
-    //                         </TableRow>
-    //                     ))}
-    //                 </TableBody>
-    //             </Table>
-    //         </TableContainer>
-    //     </>
-    // );
 }
 
 export default StatisticsTable;
