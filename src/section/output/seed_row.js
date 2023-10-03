@@ -20,27 +20,30 @@ function SendButtonCell({ schools, students, algorithm, seed, setSeedDisabled, s
             credentials: 'same-origin',
             body: formData
         }).then(async response => {
-            if (response.status !== 200) throw response
-
-            const text = await response.text()
-            const data = JSON.parse(text)
-
-            setColnames(data['colnames'])
-            setStat(data['stat'])
-
-            if (enableDownload) {
-                const csv = data['csv']
-                const file = new Blob([csv], { type: 'text/csv' })
-                const link = document.createElement('a');
-                link.download = `result_alg_${algorithm}_seed_${seed}.csv`;
-                link.href = URL.createObjectURL(file);
-                link.click();
+            switch(response.status) {
+                case 200:
+                    const text = await response.text()
+                    const data = JSON.parse(text)
+        
+                    setColnames(data['colnames'])
+                    setStat(data['stat'])
+        
+                    if (enableDownload) {
+                        const csv = data['csv']
+                        const file = new Blob([csv], { type: 'text/csv' })
+                        const link = document.createElement('a');
+                        link.download = `result_alg_${algorithm}_seed_${seed}.csv`;
+                        link.href = URL.createObjectURL(file);
+                        link.click();
+                    }
+        
+                    setAlertMessage(null)
+                default:
+                    const msg = String.fromCharCode.apply(null, (await response.body.getReader().read()).value)
+                    setAlertMessage(msg)
             }
-
-            setAlertMessage(null)
-        }).catch(async response => {
-            const msg = String.fromCharCode.apply(null, (await response.body.getReader().read()).value)
-            setAlertMessage(msg)
+        }).catch(error => {
+            setAlertMessage(error.toString())
         }).finally(() => {
             setLoading(false)
         })
