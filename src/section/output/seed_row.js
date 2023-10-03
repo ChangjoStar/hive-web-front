@@ -96,7 +96,7 @@ function SeedRow({ schools, students, algorithm, prefCount, setColnames }) {
                         algorithm={algorithm} seed={seed}
                         setSeedDisabled={setSeedDisabled} setStat={setStat}
                         prefCount={prefCount} setColnames={setColnames}
-                    //   enableDownload
+                        enableDownload
                     />
             }
         </TableRow>
