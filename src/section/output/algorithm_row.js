@@ -24,7 +24,7 @@ const AlgorithmRow = ({ schools, students, algorithm, prefCount, setColnames }) 
             </TableRow>
             {rows.map(row => row)}
             <TableRow key={`AlgorithmRow_add`}>
-                <TableCell colSpan={prefCount + 1}>
+                <TableCell colSpan={prefCount + 2}>
                     <Button variant="contained" startIcon={<AddIcon />} onClick={addRow}>
                         열 추가
                     </Button>
