@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Accordion, AccordionDetails, AccordionSummary, Typography } from '@mui/material';
-import { ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 function Section({ title, disable, children }) {
     return (

@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { CloudDownload as CloudDownloadIcon, CloudUpload as CloudUploadIcon } from '@mui/icons-material';
+import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { Tooltip, Stack, Alert } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 

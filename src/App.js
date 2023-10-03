@@ -42,7 +42,7 @@ function App() {
             </Section>
             <Section
               title='3. 학교 배정'
-            // disable={step !== 2}
+              disable={step !== 2}
             >
               <StatisticsTable schools={schools} students={students} />
             </Section>
