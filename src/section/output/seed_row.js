@@ -38,9 +38,11 @@ function SendButtonCell({ schools, students, algorithm, seed, setSeedDisabled, s
                     }
         
                     setAlertMessage(null)
+                    break
                 default:
                     const msg = String.fromCharCode.apply(null, (await response.body.getReader().read()).value)
                     setAlertMessage(msg)
+                    break
             }
         }).catch(error => {
             setAlertMessage(error.toString())
